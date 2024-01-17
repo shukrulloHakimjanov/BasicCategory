@@ -2,6 +2,10 @@ package com.example.Category.model.user;
 
 import com.example.Category.model.user.token.Token;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,8 +27,11 @@ public class User implements UserDetails {
     private Integer id;
     private String firstname;
     private String lastname;
+
     @Column(unique = true)
     private String email;
+
+
     private String password;
 
     @OneToMany(mappedBy = "user")
