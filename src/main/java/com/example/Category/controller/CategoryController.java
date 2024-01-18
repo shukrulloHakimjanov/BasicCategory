@@ -1,14 +1,12 @@
 package com.example.Category.controller;
 
 
-import com.example.Category.model.basic.Category;
 import com.example.Category.model.basic.CategorySaveDto;
 import com.example.Category.model.basic.CategoryGetDto;
 import com.example.Category.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +26,10 @@ public class CategoryController {
 
     @Operation(summary = "Get Category", description = "Get Category")
     @GetMapping
-    public List<Category> getAllCategory() {
-        log.info("REST request to get all ");
-        return categoryService.getAll();
+    public ResponseEntity<List<CategoryGetDto>> getAll(){
+        log.info("REST request to get all categories!");
+        List<CategoryGetDto> response=categoryService.getAll();
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "Post Category", description = "Post Category")

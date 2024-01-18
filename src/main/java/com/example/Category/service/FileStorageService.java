@@ -1,7 +1,12 @@
 package com.example.Category.service;
 
+import com.example.Category.mapper.FileStoreageMapper;
+import com.example.Category.model.basic.Category;
+import com.example.Category.model.basic.CategoryGetDto;
 import com.example.Category.model.file.FileStorAge;
+import com.example.Category.model.file.FileStorAgeGetDto;
 import com.example.Category.model.file.FileStorageStatus;
+import com.example.Category.repository.CategoryRepository;
 import com.example.Category.repository.FileStorageRepository;
 import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -17,19 +23,24 @@ import java.util.List;
 @Service
 public class FileStorageService {
     private final FileStorageRepository fileStorageRepository;
+    private final CategoryRepository categoryRepository;
     @Value("${upload.folder}")
     private String uploadFolder;
-
     private final Hashids hashids;
+    private final FileStoreageMapper fileStoreageMapper;
 
-    public FileStorageService(FileStorageRepository fileStorageRepository) {
+    public FileStorageService(FileStorageRepository fileStorageRepository, FileStoreageMapper fileStoreageMapper, CategoryRepository categoryRepository) {
         this.fileStorageRepository = fileStorageRepository;
+        this.fileStoreageMapper = fileStoreageMapper;
         this.hashids=new Hashids(getClass().getName(),6);
+        this.categoryRepository = categoryRepository;
     }
+
 
     public List<FileStorAge> findAll() {
         return fileStorageRepository.findAll();
     }
+
 
     public void save(MultipartFile multipartFile){
         FileStorAge fileStorAge=new FileStorAge();

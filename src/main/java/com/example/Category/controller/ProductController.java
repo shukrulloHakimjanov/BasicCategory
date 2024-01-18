@@ -1,8 +1,8 @@
 package com.example.Category.controller;
 
 
-import com.example.Category.model.product.ProductSaveDto;
 import com.example.Category.model.product.ProductEntity;
+import com.example.Category.model.product.ProductSaveDto;
 import com.example.Category.model.product.ProductGetDto;
 import com.example.Category.service.ProductService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -39,7 +39,7 @@ public class ProductController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductGetDto> create(@RequestBody ProductSaveDto productDto) {
         log.info("REST request to  Post products");
-        ProductGetDto save = productService.save(productDto);
+        ProductGetDto save = productService.create(productDto);
         return ResponseEntity.ok(save);
     }
 

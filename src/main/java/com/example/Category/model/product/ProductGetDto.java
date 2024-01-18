@@ -2,7 +2,7 @@ package com.example.Category.model.product;
 
 
 import com.example.Category.model.basic.CategorySaveDto;
-import com.example.Category.model.file.FileStorageDto;
+import com.example.Category.model.file.FileStoreAgeSave;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ public class ProductGetDto {
     private CategorySaveDto category;
 //    private Long categoryId;
     private String color;
-    private FileStorageDto fileStorAge;
+    private FileStoreAgeSave fileStorAge;
 //    private Long fileId;
 
 

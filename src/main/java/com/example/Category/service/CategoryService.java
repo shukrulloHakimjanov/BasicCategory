@@ -1,56 +1,56 @@
 package com.example.Category.service;
 
-import com.example.Category.config.JwtService;
+import com.example.Category.mapper.CategoryMapper;
 import com.example.Category.model.basic.Category;
 import com.example.Category.model.basic.CategorySaveDto;
 import com.example.Category.model.basic.CategoryGetDto;
-import com.example.Category.model.user.Role;
-import com.example.Category.model.user.User;
-import com.example.Category.model.user.auth.AuthenticationRequest;
-import com.example.Category.model.user.auth.AuthenticationResponse;
-import com.example.Category.model.user.auth.RegisterRequest;
 import com.example.Category.repository.CategoryRepository;
-import com.example.Category.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 @Service
 public class CategoryService {
+
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
-
-    public CategoryService(CategoryRepository categoryRepository) {
+    @Autowired
+    public CategoryService(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
         this.categoryRepository = categoryRepository;
+        this.categoryMapper = categoryMapper;
     }
 
-    public List<Category> getAll() {
-        return categoryRepository.findAll();
+    public List<CategoryGetDto> getAll() {
+        List<Category>categories=categoryRepository.findAll();
+        return categoryMapper.toDto(categories);
     }
 
     public CategoryGetDto save(CategorySaveDto category) {
-        Category category1 = new Category();
-        category1.setName(category.getName());
-        Category save = categoryRepository.save(category1);
-        return new CategoryGetDto(save.getId(), save.getName());
+        Category category1 =categoryMapper.fromDto(category);
+        category1 = categoryRepository.save(category1);
+        return categoryMapper.toDto(category1);
     }
 
+    @Transactional
     public void delete(Long id){
-        Category employee=categoryRepository.getOne(id);
-        categoryRepository.delete(employee);
+        Category entCategory=categoryRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Category is not found!"));
+        categoryRepository.delete(entCategory);
     }
 
 
-    public CategoryGetDto update(Long id, CategorySaveDto categoryDto) {
-            Category category = categoryRepository.findById(id).orElseThrow();
-            category.setName(categoryDto.getName());
-            Category save = categoryRepository.save(category);
-            return new CategoryGetDto(save.getId(), save.getName());
+    @Transactional
+    public CategoryGetDto update(Long id, CategorySaveDto request){
+        Category entCategory=categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Category is not found!"));
+        categoryMapper.update(entCategory, request);
+        entCategory=categoryRepository.save(entCategory);
+        return categoryMapper.toDto(entCategory);
     }
 
 
