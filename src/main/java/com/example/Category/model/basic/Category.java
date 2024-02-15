@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "basic-category")
+@Table(name = "basic_category")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -29,7 +29,7 @@ public class CategoryService {
         List<Category>categories=categoryRepository.findAll();
         return categoryMapper.toDto(categories);
     }
-
+    @Transactional(readOnly = true)
     public CategoryGetDto save(CategorySaveDto category) {
         Category category1 =categoryMapper.fromDto(category);
         category1 = categoryRepository.save(category1);

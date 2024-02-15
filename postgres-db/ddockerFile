@@ -1,0 +1,4 @@
+FROM postgres:latest
+ENV POSTGRES_DB=category
+ENV POSTGRES_USER=category2
+ENV POSTGRES_PASSWORD=7673
