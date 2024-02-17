@@ -9,6 +9,8 @@ services:
       - "8081:8081"
     depends_on:
       - db
+    networks:
+      category:
 
   db:
     build:
@@ -16,3 +18,8 @@ services:
       dockerfile: ddockerFile
     ports:
       - "5432:5432"
+    networks:
+      category:
+
+networks:
+  category:
